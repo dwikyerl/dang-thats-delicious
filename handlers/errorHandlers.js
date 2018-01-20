@@ -31,6 +31,12 @@ exports.notFound = (req, res, next) => {
 
 exports.flashValidationErrors = (err, req, res, next) => {
   // if there are no errors to show for flashes, skip it
+  if(err.name === 'UserExistsError'){
+    req.flash('error', err.message);
+    res.redirect('back');
+    return;
+  } 
+
   if (!err.errors) return next(err);
   // validation errors look like
   const errorKeys = Object.keys(err.errors);

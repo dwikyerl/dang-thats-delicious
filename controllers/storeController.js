@@ -87,6 +87,7 @@ const confirmOwner = (store, user) => {
 
 exports.editStore = async (req, res) => {
   // 1. Find the store given the ID
+  console.log(typeof req.params.storeId);
   const store = await Store.findOne({ _id: req.params.storeId });
   // 2. Confirm they are the owner of the store
 
@@ -119,6 +120,7 @@ exports.getStoreBySlug = async (req, res, next) => {
 
 exports.getStoresByTag = async (req, res) => {
   const tag = req.params.tag;
+  // If tag is null, the query will take every store that has at least one tag
   const tagQuery = tag || { $exists: true };
   const tagsPromise = Store.getTagsList();
   const storesPromise = Store.find({ tags: tagQuery});
